@@ -1,0 +1,23 @@
+[package]
+name = "rust_orm_gen"
+version = "0.1.0"
+authors = ["Tom Blanchard tomblanchard312@gmail.com"]
+edition = "2018"
+description = "A Rust ORM generator"
+license = "Apache-2.0"
+repository = "https://github.com/tomblanchard312/rust_orm_gen"
+homepage = "https://github.com/tomblanchard312/rust_orm_gen"
+
+[dependencies]
+tokio = { version = "1", features = ["full"] }
+tokio-postgres = "0.7"
+dotenv = "0.15"
+log = "0.4"
+env_logger = "0.9"
+async-trait = "0.1.50"
+chrono = "0.4"
+convert_case = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid = "1.0"
+bigdecimal = "0.2"
