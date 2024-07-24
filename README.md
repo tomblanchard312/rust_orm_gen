@@ -31,7 +31,7 @@ dotenv = "0.15.0"
  
  Ensure your .env file is correctly configured with the database URL:
  
- ```text
+ ```sh
  DATABASE_URL=postgres://user:password@localhost/mydb
  ```
 
@@ -73,14 +73,14 @@ cargo run
 
 In your Cargo.toml file add the following:
 
-```text
+```sh
 [dependencies]
 rust_orm_gen = "0.1.0"
 ```
 
 Add the connection to the Postgresql database in your .env file:
 
-```text
+```sh
 DATABASE_URL=postgres://postgres:yourpassword@localhost/yourdatabase
 ```
 
