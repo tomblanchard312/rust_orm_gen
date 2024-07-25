@@ -1,3 +1,4 @@
+
 # rust_orm_gen
 
 ![Rust](https://img.shields.io/badge/rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white)
@@ -26,14 +27,13 @@ Add rust_orm_gen to your `Cargo.toml`:
 rust_orm_gen = { git = "https://github.com/tomblanchard312/rust_orm_gen.git" }
 tokio = { version = "1", features = ["full"] }
 dotenv = "0.15.0"
-
+```
 ## Configuration
- 
- Ensure your .env file is correctly configured with the database URL:
- 
- ```sh
- DATABASE_URL=postgres://user:password@localhost/mydb
- ```
+
+Ensure your .env file is correctly configured with the database URL:
+```
+DATABASE_URL=postgres://user:password@localhost/mydb
+```
 
  Replace user, password, and mydb with your actual PostgreSQL credentials and database name.
 
