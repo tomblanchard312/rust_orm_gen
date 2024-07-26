@@ -7,7 +7,7 @@ description = "A Rust ORM generator"
 license = "MIT"
 repository = "https://github.com/tomblanchard312/rust_orm_gen"
 homepage = "https://github.com/tomblanchard312/rust_orm_gen"
-readme = "README.md"
+readme = "Readme.md"
 
 [dependencies]
 tokio = { version = "1", features = ["full"] }
