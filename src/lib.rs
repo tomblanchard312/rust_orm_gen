@@ -1,6 +1,19 @@
 pub mod context;
 pub mod crud;
-pub mod generator;
-pub mod metadata;
 pub mod db;
 pub mod error;
+pub mod generator;
+pub mod metadata;
+pub mod query_builder;
+pub mod relationships;
+pub mod migrations;
+pub mod lazy_loading;
+pub mod cache;
+pub mod validation;
+
+pub use query_builder::QueryBuilder;
+pub use relationships::HasRelationships;
+pub use migrations::Migration;
+pub use lazy_loading::LazyLoaded;
+pub use cache::Cache;
+pub use validation::Validate;
