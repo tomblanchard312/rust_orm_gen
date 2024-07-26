@@ -1,6 +1,6 @@
 [package]
 name = "rust_orm_gen"
-version = "0.1.2"
+version = "0.1.3"
 authors = ["Tom Blanchard tomblanchard312@gmail.com"]
 edition = "2021"
 description = "A Rust ORM generator"

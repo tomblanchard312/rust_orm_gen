@@ -1,8 +1,8 @@
 use dotenv::dotenv;
 use std::env;
-use log::{info, error};
-use rust_orm_gen::db::PostgresConnectionManager;
-use rust_orm_gen::context::DbContext;
+use log::error;
+use rust_orm_gen::migrations::run_migrations;
+use rust_orm_gen::generator::generate_structs;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -10,41 +10,22 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env_logger::init();
 
     let args: Vec<String> = env::args().collect();
-    let database_url = if args.len() == 3 {
-        args[1].clone()
-    } else {
-        env::var("DATABASE_URL").expect("DATABASE_URL must be set")
-    };
+    let command = args.get(1).map(String::as_str).unwrap_or_default();
 
-    let output_dir = if args.len() == 3 {
-        args[2].clone()
-    } else {
-        "db".to_string()
-    };
-
-    let manager = PostgresConnectionManager::new(database_url.clone());
-    
-    match manager.connect().await {
-        Ok(_conn) => info!("Successfully connected to the database"),
-        Err(e) => {
-            error!("Failed to connect to the database: {:?}", e);
-            return Err(e.into());
-        }
-    }
-
-    let db_context = match DbContext::new(&database_url).await {
-        Ok(context) => context,
-        Err(e) => {
-            error!("Failed to create DbContext: {:?}", e);
-            return Err(e.into());
-        }
-    };
-
-    match db_context.reverse_engineer(&output_dir, "Tom Blanchard", "https://github.com/tomblanchard312/rust_orm_gen").await {
-        Ok(_) => info!("Successfully reverse engineered the database"),
-        Err(e) => {
-            error!("Failed to reverse engineer the database: {:?}", e);
-            return Err(e.into());
+    match command {
+        "migrate" => {
+            let db_url = args.get(2).expect("Database URL required for migration");
+            let client = tokio_postgres::connect(db_url, tokio_postgres::NoTls).await?.0;
+            let migrations = vec![]; // You need to define your migrations here
+            run_migrations(&client, &migrations).await?;
+        },
+        "generate-schema" => {
+            let db_url = args.get(2).expect("Database URL required for schema generation");
+            generate_structs(db_url).await?;
+        },        
+        _ => {
+            error!("Unknown command or insufficient arguments");
+            std::process::exit(1);
         }
     }
 
