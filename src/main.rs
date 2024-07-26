@@ -10,10 +10,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env_logger::init();
 
     let args: Vec<String> = env::args().collect();
-    let (database_url, output_dir) = if args.len() == 3 {
-        (args[1].clone(), args[2].clone())
+    let database_url = if args.len() == 3 {
+        args[1].clone()
     } else {
-        (env::var("DATABASE_URL").expect("DATABASE_URL must be set"), "db".to_string())
+        env::var("DATABASE_URL").expect("DATABASE_URL must be set")
+    };
+
+    let output_dir = if args.len() == 3 {
+        args[2].clone()
+    } else {
+        "db".to_string()
     };
 
     let manager = PostgresConnectionManager::new(database_url.clone());
