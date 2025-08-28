@@ -10,6 +10,7 @@ pub mod migrations;
 pub mod lazy_loading;
 pub mod cache;
 pub mod validation;
+pub mod visualization;
 
 pub use query_builder::QueryBuilder;
 pub use relationships::HasRelationships;
@@ -17,3 +18,16 @@ pub use migrations::Migration;
 pub use lazy_loading::LazyLoaded;
 pub use cache::Cache;
 pub use validation::Validate;
+
+// Visualization exports
+pub use visualization::{
+    SchemaVisualizer,
+    SchemaMonitor,
+    Table,
+    Column,
+    Relationship,
+    Theme,
+    MonitoringConfig,
+    VisualizationConfig,
+    SchemaChangeEvent,
+};
