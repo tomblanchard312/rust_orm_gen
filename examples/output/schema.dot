@@ -1,0 +1,11 @@
+digraph DatabaseSchema {
+  rankdir=LR;
+  node [shape=record, style=filled, fillcolor="#2C3E50", fontname="Segoe UI, Tahoma, Geneva, Verdana, sans-serif", fontsize=16];
+  edge [color="#34495E", fontname="Segoe UI, Tahoma, Geneva, Verdana, sans-serif", fontsize=16];
+  "users" [label="{users|id (PK) NOT NULL: INTEGER|username NOT NULL: VARCHAR(50)|email NOT NULL: VARCHAR(100)|created_at NOT NULL: TIMESTAMP}}"];
+  "posts" [label="{posts|id (PK) NOT NULL: INTEGER|user_id (FK) NOT NULL: INTEGER|title NOT NULL: VARCHAR(200)|content: TEXT|published_at: TIMESTAMP}}"];
+  "comments" [label="{comments|id (PK) NOT NULL: INTEGER|post_id (FK) NOT NULL: INTEGER|user_id (FK) NOT NULL: INTEGER|content NOT NULL: TEXT|created_at NOT NULL: TIMESTAMP}}"];
+  "posts":"user_id" -> "users":"id" [label="CASCADE:CASCADE"];
+  "comments":"post_id" -> "posts":"id" [label="CASCADE:CASCADE"];
+  "comments":"user_id" -> "users":"id" [label="CASCADE:CASCADE"];
+}

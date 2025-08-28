@@ -1,0 +1,42 @@
+{
+  "folders": [
+    {
+      "name": "rust_orm_gen",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "rust-analyzer.checkOnSave.command": "clippy",
+    "rust-analyzer.checkOnSave.extraArgs": ["--", "-D", "warnings"],
+    "rust-analyzer.cargo.buildScripts.enable": true,
+    "rust-analyzer.procMacro.enable": true,
+    "files.associations": {
+      "*.rs": "rust",
+      "*.toml": "toml"
+    },
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "rust-analyzer.checkOnSave": true
+  },
+  "extensions": {
+    "recommendations": [
+      "rust-lang.rust-analyzer",
+      "vadimcn.vscode-lldb",
+      "serayuzgur.crates",
+      "tamasfe.even-better-toml"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "cargo run - help",
+        "type": "shell",
+        "command": "cargo",
+        "args": ["run", "--", "--help"],
+        "group": "build"
+      }
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug rust_orm_gen",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/target/debug/rust_orm_gen",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "RUST_BACKTRACE": "1",
+        "RUST_LOG": "debug"
+      },
+      "console": "integratedTerminal",
+      "preLaunchTask": "cargo build"
+    },
+    {
+      "name": "Debug with Visualization",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/target/debug/rust_orm_gen",
+      "args": ["visualize", "--format", "html", "--output-dir", "./output"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "RUST_BACKTRACE": "1",
+        "RUST_LOG": "debug"
+      },
+      "console": "integratedTerminal",
+      "preLaunchTask": "cargo build"
+    },
+    {
+      "name": "Debug Tests",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/target/debug/deps/rust_orm_gen-${hash}",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "RUST_BACKTRACE": "1",
+        "RUST_LOG": "debug"
+      },
+      "console": "integratedTerminal",
+      "preLaunchTask": "cargo test"
+    }
+  ]
+}

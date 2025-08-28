@@ -1,0 +1,117 @@
+{
+  "Derive Serialize Deserialize": {
+    "prefix": "derive_serde",
+    "body": [
+      "#[derive(Debug, Clone, Serialize, Deserialize)]"
+    ],
+    "description": "Add Serde derive macros"
+  },
+  "Derive Debug Clone": {
+    "prefix": "derive_debug",
+    "body": [
+      "#[derive(Debug, Clone)]"
+    ],
+    "description": "Add Debug and Clone derive macros"
+  },
+  "Error Handling with Result": {
+    "prefix": "result_fn",
+    "body": [
+      "pub fn ${1:function_name}(${2:params}) -> Result<${3:ReturnType}, ${4:ErrorType}> {",
+      "    ${5:// implementation}",
+      "    Ok(${6:value})",
+      "}"
+    ],
+    "description": "Function returning Result type"
+  },
+  "Async Function": {
+    "prefix": "async_fn",
+    "body": [
+      "pub async fn ${1:function_name}(${2:params}) -> Result<${3:ReturnType}, ${4:ErrorType}> {",
+      "    ${5:// implementation}",
+      "    Ok(${6:value})",
+      "}"
+    ],
+    "description": "Async function with Result return type"
+  },
+  "Database Model": {
+    "prefix": "db_model",
+    "body": [
+      "#[derive(Debug, Clone, Serialize, Deserialize)]",
+      "pub struct ${1:ModelName} {",
+      "    pub id: Option<i64>,",
+      "    ${2:// fields}",
+      "}",
+      "",
+      "impl ${1:ModelName} {",
+      "    pub fn new(${3:params}) -> Self {",
+      "        Self {",
+      "            id: None,",
+      "            ${4:// field assignments}",
+      "        }",
+      "    }",
+      "}"
+    ],
+    "description": "Database model structure"
+  },
+  "Test Function": {
+    "prefix": "test_fn",
+    "body": [
+      "#[cfg(test)]",
+      "mod tests {",
+      "    use super::*;",
+      "",
+      "    #[test]",
+      "    fn test_${1:function_name}() {",
+      "        ${2:// test implementation}",
+      "        assert_eq!(${3:expected}, ${4:actual});",
+      "    }",
+      "}"
+    ],
+    "description": "Test module and function"
+  },
+  "Async Test": {
+    "prefix": "async_test",
+    "body": [
+      "#[tokio::test]",
+      "async fn test_${1:function_name}() {",
+      "    ${2:// test implementation}",
+      "    assert_eq!(${3:expected}, ${4:actual});",
+      "}"
+    ],
+    "description": "Async test function"
+  },
+  "SQL Query Builder": {
+    "prefix": "sql_query",
+    "body": [
+      "let query = QueryBuilder::new()",
+      "    .select(\"${1:columns}\")",
+      "    .from(\"${2:table}\")",
+      "    .where_(\"${3:condition}\")",
+      "    .build();"
+    ],
+    "description": "SQL query builder pattern"
+  },
+  "Migration Template": {
+    "prefix": "migration",
+    "body": [
+      "use crate::migrations::Migration;",
+      "",
+      "pub struct ${1:MigrationName};",
+      "",
+      "impl Migration for ${1:MigrationName} {",
+      "    fn up(&self) -> String {",
+      "        r#\"",
+      "            ${2:-- SQL UP}",
+      "        \"#.to_string()",
+      "    }",
+      "",
+      "    fn down(&self) -> String {",
+      "        r#\"",
+      "            ${3:-- SQL DOWN}",
+      "        \"#.to_string()",
+      "    }",
+      "}"
+    ],
+    "description": "Database migration template"
+  }
+}

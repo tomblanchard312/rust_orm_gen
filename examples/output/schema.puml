@@ -1,0 +1,30 @@
+@startuml DatabaseSchema
+!theme plain
+skinparam backgroundColor #FFFFFF
+skinparam classBackgroundColor #F8F9FA
+skinparam classBorderColor #DEE2E6
+skinparam classFontColor #212529
+class users {
+    id: INTEGER <<PK>> <<NOT NULL>>
+    username: VARCHAR(50) <<NOT NULL>>
+    email: VARCHAR(100) <<NOT NULL>>
+    created_at: TIMESTAMP <<NOT NULL>>
+}
+class posts {
+    id: INTEGER <<PK>> <<NOT NULL>>
+    user_id: INTEGER <<FK>> <<NOT NULL>>
+    title: VARCHAR(200) <<NOT NULL>>
+    content: TEXT
+    published_at: TIMESTAMP
+}
+class comments {
+    id: INTEGER <<PK>> <<NOT NULL>>
+    post_id: INTEGER <<FK>> <<NOT NULL>>
+    user_id: INTEGER <<FK>> <<NOT NULL>>
+    content: TEXT <<NOT NULL>>
+    created_at: TIMESTAMP <<NOT NULL>>
+}
+posts ||--o{ users : "CASCADE:CASCADE"
+comments ||--o{ posts : "CASCADE:CASCADE"
+comments ||--o{ users : "CASCADE:CASCADE"
+@enduml

@@ -1,0 +1,161 @@
+{
+  "metadata": {
+    "configuration": {
+      "layout_engine": "dot",
+      "show_constraints": true,
+      "show_data_types": true,
+      "show_relationships": true
+    },
+    "generated_at": "2025-08-27T19:16:10.225169+00:00",
+    "theme": {
+      "background_color": "#2C3E50",
+      "border_color": "#34495E",
+      "font_family": "Segoe UI, Tahoma, Geneva, Verdana, sans-serif",
+      "font_size": 16,
+      "name": "custom_dark",
+      "primary_color": "#FF6B6B",
+      "secondary_color": "#4ECDC4",
+      "text_color": "#ECF0F1"
+    },
+    "total_relationships": 3,
+    "total_tables": 3
+  },
+  "relationships": [
+    {
+      "from_column": "user_id",
+      "from_table": "posts",
+      "relationship_type": "CASCADE:CASCADE",
+      "to_column": "id",
+      "to_table": "users"
+    },
+    {
+      "from_column": "post_id",
+      "from_table": "comments",
+      "relationship_type": "CASCADE:CASCADE",
+      "to_column": "id",
+      "to_table": "posts"
+    },
+    {
+      "from_column": "user_id",
+      "from_table": "comments",
+      "relationship_type": "CASCADE:CASCADE",
+      "to_column": "id",
+      "to_table": "users"
+    }
+  ],
+  "tables": [
+    {
+      "columns": [
+        {
+          "data_type": "INTEGER",
+          "is_foreign_key": false,
+          "is_nullable": false,
+          "is_primary_key": true,
+          "name": "id"
+        },
+        {
+          "data_type": "VARCHAR(50)",
+          "is_foreign_key": false,
+          "is_nullable": false,
+          "is_primary_key": false,
+          "name": "username"
+        },
+        {
+          "data_type": "VARCHAR(100)",
+          "is_foreign_key": false,
+          "is_nullable": false,
+          "is_primary_key": false,
+          "name": "email"
+        },
+        {
+          "data_type": "TIMESTAMP",
+          "is_foreign_key": false,
+          "is_nullable": false,
+          "is_primary_key": false,
+          "name": "created_at"
+        }
+      ],
+      "name": "users"
+    },
+    {
+      "columns": [
+        {
+          "data_type": "INTEGER",
+          "is_foreign_key": false,
+          "is_nullable": false,
+          "is_primary_key": true,
+          "name": "id"
+        },
+        {
+          "data_type": "INTEGER",
+          "is_foreign_key": true,
+          "is_nullable": false,
+          "is_primary_key": false,
+          "name": "user_id"
+        },
+        {
+          "data_type": "VARCHAR(200)",
+          "is_foreign_key": false,
+          "is_nullable": false,
+          "is_primary_key": false,
+          "name": "title"
+        },
+        {
+          "data_type": "TEXT",
+          "is_foreign_key": false,
+          "is_nullable": true,
+          "is_primary_key": false,
+          "name": "content"
+        },
+        {
+          "data_type": "TIMESTAMP",
+          "is_foreign_key": false,
+          "is_nullable": true,
+          "is_primary_key": false,
+          "name": "published_at"
+        }
+      ],
+      "name": "posts"
+    },
+    {
+      "columns": [
+        {
+          "data_type": "INTEGER",
+          "is_foreign_key": false,
+          "is_nullable": false,
+          "is_primary_key": true,
+          "name": "id"
+        },
+        {
+          "data_type": "INTEGER",
+          "is_foreign_key": true,
+          "is_nullable": false,
+          "is_primary_key": false,
+          "name": "post_id"
+        },
+        {
+          "data_type": "INTEGER",
+          "is_foreign_key": true,
+          "is_nullable": false,
+          "is_primary_key": false,
+          "name": "user_id"
+        },
+        {
+          "data_type": "TEXT",
+          "is_foreign_key": false,
+          "is_nullable": false,
+          "is_primary_key": false,
+          "name": "content"
+        },
+        {
+          "data_type": "TIMESTAMP",
+          "is_foreign_key": false,
+          "is_nullable": false,
+          "is_primary_key": false,
+          "name": "created_at"
+        }
+      ],
+      "name": "comments"
+    }
+  ]
+}

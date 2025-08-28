@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Schema Visualization</title>
+    <style>
+        body { font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background-color: #2C3E50; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #FF6B6B; }
+        .table-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .table-card { background: white; border: 2px solid #34495E; border-radius: 8px; padding: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .table-name { font-size: 18px; font-weight: bold; color: #FF6B6B; margin-bottom: 15px; border-bottom: 2px solid #34495E; padding-bottom: 5px; }
+        .column { padding: 5px 0; border-bottom: 1px solid #eee; }
+        .column:last-child { border-bottom: none; }
+        .pk { color: #FF6B6B; font-weight: bold; }
+        .fk { color: #4ECDC4; font-weight: bold; }
+        .not-null { font-style: italic; }
+        .controls { margin-bottom: 20px; text-align: center; }
+        .btn { background: #FF6B6B; color: white; border: none; padding: 10px 20px; margin: 0 5px; border-radius: 5px; cursor: pointer; }
+        .btn:hover { opacity: 0.8; }
+        .search { padding: 8px; border: 1px solid #34495E; border-radius: 4px; width: 200px; margin-right: 10px; }
+        .zoom-controls { position: fixed; top: 20px; right: 20px; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .zoom-btn { background: #4ECDC4; color: white; border: none; padding: 5px 10px; margin: 2px; border-radius: 3px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <input type="text" class="search" id="searchInput" placeholder="Search tables...">
+        <button class="btn" onclick="exportSVG()">Export SVG</button>
+        <button class="btn" onclick="exportPDF()">Export PDF</button>
+        <button class="btn" onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+    <div class="zoom-controls">
+        <button class="zoom-btn" onclick="zoomIn()">+</button><br>
+        <button class="zoom-btn" onclick="zoomOut()">-</button><br>
+        <button class="zoom-btn" onclick="resetZoom()">Reset</button>
+    </div>
+    <div class="container">
+        <div class="header">
+            <h1>Database Schema Visualization</h1>
+            <p>Generated on 2025-08-27 19:16:10 UTC</p>
+        </div>
+        <div class="table-container" id="tableContainer">
+            <div class="table-card" data-table-name="users">
+                <div class="table-name">users</div>
+                <div class="column" class="pk not-null">
+                    <strong>id</strong>: INTEGER
+                    <br><small>(Primary Key, Not Null)</small>
+                </div>
+                <div class="column" class="not-null">
+                    <strong>username</strong>: VARCHAR(50)
+                    <br><small>(Not Null)</small>
+                </div>
+                <div class="column" class="not-null">
+                    <strong>email</strong>: VARCHAR(100)
+                    <br><small>(Not Null)</small>
+                </div>
+                <div class="column" class="not-null">
+                    <strong>created_at</strong>: TIMESTAMP
+                    <br><small>(Not Null)</small>
+                </div>
+            </div>
+            <div class="table-card" data-table-name="posts">
+                <div class="table-name">posts</div>
+                <div class="column" class="pk not-null">
+                    <strong>id</strong>: INTEGER
+                    <br><small>(Primary Key, Not Null)</small>
+                </div>
+                <div class="column" class="fk not-null">
+                    <strong>user_id</strong>: INTEGER
+                    <br><small>(Foreign Key, Not Null)</small>
+                </div>
+                <div class="column" class="not-null">
+                    <strong>title</strong>: VARCHAR(200)
+                    <br><small>(Not Null)</small>
+                </div>
+                <div class="column">
+                    <strong>content</strong>: TEXT
+                </div>
+                <div class="column">
+                    <strong>published_at</strong>: TIMESTAMP
+                </div>
+            </div>
+            <div class="table-card" data-table-name="comments">
+                <div class="table-name">comments</div>
+                <div class="column" class="pk not-null">
+                    <strong>id</strong>: INTEGER
+                    <br><small>(Primary Key, Not Null)</small>
+                </div>
+                <div class="column" class="fk not-null">
+                    <strong>post_id</strong>: INTEGER
+                    <br><small>(Foreign Key, Not Null)</small>
+                </div>
+                <div class="column" class="fk not-null">
+                    <strong>user_id</strong>: INTEGER
+                    <br><small>(Foreign Key, Not Null)</small>
+                </div>
+                <div class="column" class="not-null">
+                    <strong>content</strong>: TEXT
+                    <br><small>(Not Null)</small>
+                </div>
+                <div class="column" class="not-null">
+                    <strong>created_at</strong>: TIMESTAMP
+                    <br><small>(Not Null)</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let currentZoom = 1;
+        let currentTheme = 'default';
+        
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const tables = document.querySelectorAll('.table-card');
+            
+            tables.forEach(table => {
+                const tableName = table.getAttribute('data-table-name').toLowerCase();
+                if (tableName.includes(searchTerm)) {
+                    table.style.display = 'block';
+                } else {
+                    table.style.display = 'none';
+                }
+            });
+        });
+        
+        // Zoom functionality
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom * 1.2, 3);
+            applyZoom();
+        }
+        
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom / 1.2, 0.5);
+            applyZoom();
+        }
+        
+        function resetZoom() {
+            currentZoom = 1;
+            applyZoom();
+        }
+        
+        function applyZoom() {
+            document.body.style.transform = `scale(${currentZoom})`;
+            document.body.style.transformOrigin = 'top left';
+        }
+        
+        // Theme toggle
+        function toggleTheme() {
+            if (currentTheme === 'default') {
+                document.body.style.backgroundColor = '#1a1a1a';
+                document.body.style.color = '#ffffff';
+                currentTheme = 'dark';
+            } else {
+                document.body.style.backgroundColor = '#2C3E50';
+                document.body.style.color = '#ECF0F1';
+                currentTheme = 'default';
+            }
+        }
+        
+        // Export functions
+        function exportSVG() {
+            const svg = document.querySelector('.container').outerHTML;
+            const blob = new Blob([svg], { type: 'image/svg+xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'schema.svg';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function exportPDF() {
+            window.print();
+        }
+        
+        // Pan functionality
+        let isPanning = false;
+        let startX, startY, scrollLeft, scrollTop;
+        
+        document.addEventListener('mousedown', function(e) {
+            if (e.button === 1) { // Middle mouse button
+                isPanning = true;
+                startX = e.pageX;
+                startY = e.pageY;
+                scrollLeft = window.pageXOffset;
+                scrollTop = window.pageYOffset;
+                e.preventDefault();
+            }
+        });
+        
+        document.addEventListener('mousemove', function(e) {
+            if (!isPanning) return;
+            e.preventDefault();
+            const x = e.pageX;
+            const y = e.pageY;
+            const walkX = (x - startX) * 2;
+            const walkY = (y - startY) * 2;
+            window.scrollTo(scrollLeft - walkX, scrollTop - walkY);
+        });
+        
+        document.addEventListener('mouseup', function() {
+            isPanning = false;
+        });
+        
+        // Real-time monitoring simulation
+        setInterval(function() {
+            const timestamp = new Date().toLocaleTimeString();
+            document.querySelector('.header p').textContent = `Last updated: ${timestamp}`;
+        }, 30000); // Update every 30 seconds
+    </script>
+</body>
+</html>
