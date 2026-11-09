@@ -147,3 +147,9 @@ Example code:
 ```
 
 This example will output all of the database structs and methods to the db folder in your project.
+
+## PostgreSQL relationship discovery (0.3)
+
+`discovery::discover(&mut client, &schemas).await` reads catalog-declared foreign keys and primary/unique indexes in a read-only transaction. It preserves schemas, composite column ordering, nullable keys, validation/enforcement state and update/delete rules. The caller owns the connection and TLS policy. No row data, generated code, migrations or writes are involved. See `tests/discovery_postgres.rs` for a Docker-backed example.
+
+License: MIT, as stated in LICENSE and Cargo.toml. The prior inconsistent custom Apache-style LICENSE was replaced with MIT at the repository owner’s direction.
