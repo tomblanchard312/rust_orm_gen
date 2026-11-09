@@ -31,3 +31,4 @@ pub use visualization::{
     VisualizationConfig,
     SchemaChangeEvent,
 };
+pub mod discovery;
